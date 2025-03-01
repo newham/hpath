@@ -6,17 +6,146 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Env Manager</title>
     <style>
-        #editor {
+        /* 全局样式 */
+        body {
+            /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; */
+            /* background-color: #f2f2f7; */
+            margin: 0;
+            padding: 30px 0 0 0;
+            /* 增加顶部内边距，避免内容被导航栏遮挡 */
+            font-size: 13px;
+        }
+
+        /* 导航栏样式 */
+        nav {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            /* 固定导航栏 */
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 400px;
+        }
+
+        /* 容器样式 */
+        #app {
+            background-color: #fff;
+            /* border-radius: 12px; */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 0;
+            margin-top: 40px;
+        }
+
+        /* 列表样式 */
+        ul {
+            padding: 0;
+            margin: 0;
         }
 
         li {
+            line-height: 20px;
             list-style-type: none;
+            padding: 10px;
+            border-bottom: 1px solid #e5e5ea;
+            transition: background-color 0.2s ease;
+            min-height: 20px;
         }
 
+        li:hover {
+            background-color: #fafafa;
+        }
+
+        /* 编辑状态样式 */
         .editable {
             background-color: #f0f0f0;
+        }
+
+        /* 输入框和选择框样式 */
+        input,
+        select {
+            padding: 8px;
+            border: 1px solid #d1d1d6;
+            border-radius: 8px;
+            /* font-size: 14px; */
+            margin-right: 10px;
+        }
+
+        /* 按钮样式 */
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            /* font-size: 14px; */
+            transition: background-color 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #e5e5ea;
+        }
+
+        button:active {
+            background-color: #d1d1d6;
+        }
+
+        /* 保存和取消按钮样式 */
+        button:nth-child(odd) {
+            background-color: #007aff;
+            color: #fff;
+        }
+
+        button:nth-child(odd):hover {
+            background-color: #0066cc;
+        }
+
+        button:nth-child(odd):active {
+            background-color: #0052a3;
+        }
+
+        /* 添加按钮样式 */
+        #add-button {
+            background-color: #34c759;
+            color: #fff;
+        }
+
+        #add-button:hover {
+            background-color: #28a745;
+        }
+
+        #add-button:active {
+            background-color: #218838;
+        }
+
+        /* 删除按钮样式 */
+        button.delete-button {
+            background-color: #ff3b30;
+            color: #fff;
+        }
+
+        button.delete-button:hover {
+            background-color: #d9271e;
+        }
+
+        button.delete-button:active {
+            background-color: #b32019;
+        }
+
+        /* 保存所有按钮样式 */
+        #save-all-button {
+            background-color: #007aff;
+            color: #fff;
+        }
+
+        #save-all-button:hover {
+            background-color: #0066cc;
+        }
+
+        #save-all-button:active {
+            background-color: #0052a3;
         }
     </style>
     <!-- 引入 Vue 2 -->
@@ -25,6 +154,10 @@
 
 <body>
     <div id="app">
+        <nav>
+            <button id="add-button" @click="addLine">Add</button>
+            <button id="save-all-button" @click="saveAll">Save All</button>
+        </nav>
         <ul>
             <li v-for="(line, index) in envLines" :key="index" @click="editLine(index)"
                 :class="{ editable: editingIndex === index }">
@@ -42,10 +175,10 @@
                     <!-- 添加 .stop 修饰符阻止事件冒泡 -->
                     <button @click.stop="saveLine(index)">✅</button>
                     <button @click.stop="cancelEdit(index)">❌</button>
+                    <button @click.stop="deleteLine(index)" class="delete-button">🗑️</button>
                 </div>
             </li>
         </ul>
-        <button @click="addLine">Add</button>
     </div>
 
     <script>
@@ -103,11 +236,16 @@
                             if (this.isComment(this.envLines[index])) {
                                 this.envLines[index] = this.envLines[index];
                             } else {
-                                let newLine = `${this.commandType[index]} ${this.envName[index]}=${this.envValue[index]}`;
-                                if (this.comment[index]) {
-                                    newLine += ` #${this.comment[index]}`;
+                                // 检查是否有输入内容
+                                if (!this.commandType[index] && !this.envName[index] && !this.envValue[index] && !this.comment[index]) {
+                                    this.envLines[index] = '';
+                                } else {
+                                    let newLine = `${this.commandType[index] || ''} ${this.envName[index] || ''}=${this.envValue[index] || ''}`;
+                                    if (this.comment[index]) {
+                                        newLine += ` #${this.comment[index]}`;
+                                    }
+                                    this.envLines[index] = newLine.trim();
                                 }
-                                this.envLines[index] = newLine;
                             }
                             this.editingIndex = null;
                         },
@@ -129,6 +267,22 @@
                             this.envValue[newIndex] = '';
                             this.comment[newIndex] = '';
                             this.editingIndex = newIndex;
+                        },
+                        deleteLine(index) {
+                            this.envLines.splice(index, 1);
+                            this.commandType.splice(index, 1);
+                            this.envName.splice(index, 1);
+                            this.envValue.splice(index, 1);
+                            this.comment.splice(index, 1);
+                            this.editingIndex = null;
+                        },
+                        saveAll() {
+                            let content = this.envLines.join('\n');
+                            ipcRenderer.invoke('write-zprofile', content).then(success => {
+                                if (success) {
+                                    alert('Saved successfully!');
+                                }
+                            });
                         }
                     }
                 });
