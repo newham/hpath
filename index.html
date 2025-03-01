@@ -324,14 +324,19 @@
                     computed: {
                         isDataChanged() {
                             // 检查每个数组是否有变化
-                            return (
-                                JSON.stringify(this.envLines) !== JSON.stringify(this.envLines.slice()) ||
-                                JSON.stringify(this.commandType) !== JSON.stringify(this.commandType.slice()) ||
-                                JSON.stringify(this.envName) !== JSON.stringify(this.envName.slice()) ||
-                                JSON.stringify(this.envValue) !== JSON.stringify(this.envValue.slice()) ||
-                                JSON.stringify(this.comment) !== JSON.stringify(this.comment.slice()) ||
-                                JSON.stringify(this.singleLineInput) !== JSON.stringify(this.singleLineInput.slice())
-                            );
+                            for (let i = 0; i < this.envLines.length; i++) {
+                                if (
+                                    this.envLines[i] !== this.originalData[i]?.envLines ||
+                                    this.commandType[i] !== this.originalData[i]?.commandType ||
+                                    this.envName[i] !== this.originalData[i]?.envName ||
+                                    this.envValue[i] !== this.originalData[i]?.envValue ||
+                                    this.comment[i] !== this.originalData[i]?.comment ||
+                                    this.singleLineInput[i] !== this.originalData[i]?.singleLineInput
+                                ) {
+                                    return true;
+                                }
+                            }
+                            return false;
                         }
                     },
                     methods: {
@@ -412,7 +417,7 @@
                             let content = this.envLines.join('\n');
                             ipcRenderer.invoke('write-zprofile', content).then(success => {
                                 if (success) {
-                                    alert('Saved successfully!');
+                                    alert('Saved .zprofile successfully!');
                                 }
                             });
                             // 保存成功后更新原始数据
