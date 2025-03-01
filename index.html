@@ -249,6 +249,8 @@
                     <button @click.stop="saveLine(index)">✓</button>
                     <button @click.stop="cancelEdit(index)">×</button>
                     <button @click.stop="deleteLine(index)" class="delete-button">⇤</button>
+                    <!-- 新增行按钮 -->
+                    <button @click.stop="addLineBelow(index)">+ 新增行</button>
                 </div>
             </li>
         </ul>
@@ -393,6 +395,23 @@
                             this.envValue[newIndex] = '';
                             this.comment[newIndex] = '';
                             this.singleLineInput[newIndex] = '';
+                            // 保存新增行的原始数据
+                            this.originalData[newIndex] = {
+                                commandType: 'export',
+                                envName: '',
+                                envValue: '',
+                                comment: ''
+                            };
+                            this.editingIndex = newIndex;
+                        },
+                        addLineBelow(index) {
+                            const newIndex = index + 1;
+                            this.envLines.splice(newIndex, 0, '');
+                            this.commandType.splice(newIndex, 0, 'export');
+                            this.envName.splice(newIndex, 0, '');
+                            this.envValue.splice(newIndex, 0, '');
+                            this.comment.splice(newIndex, 0, '');
+                            this.singleLineInput.splice(newIndex, 0, '');
                             // 保存新增行的原始数据
                             this.originalData[newIndex] = {
                                 commandType: 'export',
