@@ -75,12 +75,14 @@
             /* font-size: 14px; */
             margin-right: 2px;
             margin-top: 2px;
+            margin-bottom: 2px;
         }
 
         /* 按钮样式 */
         button {
             padding: 4px 8px;
             margin-top: 2px;
+            margin-bottom: 2px;
             border: none;
             border-radius: 8px;
             cursor: pointer;
@@ -152,6 +154,19 @@
         #save-all-button:active {
             background-color: #0052a3;
         }
+
+        /* 新增样式：设置不同命令类型的字体颜色 */
+        li span.comment {
+            color: darkgreen;
+        }
+
+        li span.export {
+            color: #0066cc;
+        }
+
+        li span.alias {
+            color: orange;
+        }
     </style>
     <!-- 引入 Vue 2 -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
@@ -169,7 +184,8 @@
         <ul>
             <li v-for="(line, index) in envLines" :key="index" @click="editLine(index)"
                 :class="{ editable: editingIndex === index }">
-                <span v-if="editingIndex!== index">{{ line }}</span>
+                <!-- 根据 commandType 添加不同的类名 -->
+                <span v-if="editingIndex!== index" :class="commandType[index]">{{ line }}</span>
                 <div v-else>
                     <select v-model="commandType[index]">
                         <option value="export">export</option>
@@ -191,7 +207,7 @@
                     </template>
                     <button @click.stop="saveLine(index)">✓</button>
                     <button @click.stop="cancelEdit(index)">×</button>
-                    <button @click.stop="deleteLine(index)" class="delete-button">🗑️</button>
+                    <button @click.stop="deleteLine(index)" class="delete-button">⇤</button>
                 </div>
             </li>
         </ul>
