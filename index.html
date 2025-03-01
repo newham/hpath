@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Env Manager</title>
+    <style>
+        #editor {
+            width: 100%;
+            height: 400px;
+        }
+
+        li {
+            list-style-type: none;
+        }
+
+        .editable {
+            background-color: #f0f0f0;
+        }
+    </style>
+    <!-- 引入 Vue 2 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="(line, index) in envLines" :key="index" @click="editLine(index)"
+                :class="{ editable: editingIndex === index }">
+                <span v-if="editingIndex!== index">{{ line }}</span>
+                <div v-else>
+                    <select v-if="!isComment(line)" v-model="commandType[index]">
+                        <option value="export">export</option>
+                        <option value="eval">eval</option>
+                        <option value="alias">alias</option>
+                    </select>
+                    <input v-if="!isComment(line)" v-model="envName[index]" />
+                    <input v-if="!isComment(line)" v-model="envValue[index]" />
+                    <input v-if="!isComment(line)" v-model="comment[index]" />
+                    <input v-else v-model="envLines[index]" />
+                    <!-- 添加 .stop 修饰符阻止事件冒泡 -->
+                    <button @click.stop="saveLine(index)">✅</button>
+                    <button @click.stop="cancelEdit(index)">❌</button>
+                </div>
+            </li>
+        </ul>
+        <button @click="addLine">Add</button>
+    </div>
+
+    <script>
+        const { ipcRenderer } = require('electron');
+
+        async function loadZProfile() {
+            const content = await ipcRenderer.invoke('read-zprofile');
+            if (content) {
+                const lines = content.split('\n');
+                const envLines = [];
+                const commandType = [];
+                const envName = [];
+                const envValue = [];
+                const comment = [];
+
+                lines.forEach((line, index) => {
+                    envLines.push(line);
+                    if (!line.startsWith('#')) {
+                        const parts = line.split(' ');
+                        commandType[index] = parts[0];
+                        if (parts.length > 1) {
+                            const envPart = parts[1].split('=');
+                            envName[index] = envPart[0];
+                            if (envPart.length > 1) {
+                                const valueAndComment = envPart[1].split(' #');
+                                envValue[index] = valueAndComment[0];
+                                comment[index] = valueAndComment.length > 1 ? valueAndComment[1] : '';
+                            }
+                        }
+                    }
+                });
+
+                // 创建 Vue 实例
+                new Vue({
+                    el: '#app',
+                    data: {
+                        envLines: envLines,
+                        commandType: commandType,
+                        envName: envName,
+                        envValue: envValue,
+                        comment: comment,
+                        editingIndex: null,
+                        originalLine: ''
+                    },
+                    methods: {
+                        isComment(line) {
+                            return line.startsWith('#');
+                        },
+                        editLine(index) {
+                            this.editingIndex = index;
+                            this.originalLine = this.envLines[index];
+                            console.log('Original line saved:', this.originalLine);
+                        },
+                        saveLine(index) {
+                            if (this.isComment(this.envLines[index])) {
+                                this.envLines[index] = this.envLines[index];
+                            } else {
+                                let newLine = `${this.commandType[index]} ${this.envName[index]}=${this.envValue[index]}`;
+                                if (this.comment[index]) {
+                                    newLine += ` #${this.comment[index]}`;
+                                }
+                                this.envLines[index] = newLine;
+                            }
+                            this.editingIndex = null;
+                        },
+                        cancelEdit(index) {
+                            // 恢复原始行文本
+                            this.envLines[index] = this.originalLine;
+                            console.log('Original line restored:', this.envLines[index]);
+                            // 退出编辑状态
+                            this.editingIndex = null;
+                            console.log('Editing index set to null:', this.editingIndex);
+                            // 强制更新 DOM
+                            this.$forceUpdate();
+                        },
+                        addLine() {
+                            const newIndex = this.envLines.length;
+                            this.envLines.push('');
+                            this.commandType[newIndex] = 'export';
+                            this.envName[newIndex] = '';
+                            this.envValue[newIndex] = '';
+                            this.comment[newIndex] = '';
+                            this.editingIndex = newIndex;
+                        }
+                    }
+                });
+            }
+        }
+
+        loadZProfile();
+    </script>
+</body>
+
+</html>

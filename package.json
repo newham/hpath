@@ -1,0 +1,45 @@
+{
+  "name": "hpath",
+  "version": "0.0.1",
+  "description": "GUI for path",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "electron . -t",
+    "build_mac": "electron-builder build --mac --arm64"
+  },
+  "keywords": [
+    "markdown"
+  ],
+  "build": {
+    "productName": "hpath",
+    "appId": "top.newham.hpath",
+    "directories": {
+      "output": "build"
+    },
+    "fileAssociations": [
+      {
+        "ext": [
+          "md"
+        ],
+        "description": "Markdown File",
+        "role": "Viewer",
+        "isPackage": false,
+        "icon": "./asserts/img/icons8-file-md-120.icns"
+      }
+    ],
+    "mac": {
+      "icon": "./asserts/img/icon.icns",
+      "target": {
+        "target": "dmg",
+        "arch": "arm64"
+      }
+    }
+  },
+  "author": "newham",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^32.1.2",
+    "electron-builder": "^25.0.5"
+  }
+}
