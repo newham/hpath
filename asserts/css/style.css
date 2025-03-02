@@ -1,0 +1,209 @@
+/* 全局样式 */
+body {
+    /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; */
+    background-color: rgb(239, 241, 238);
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+}
+
+/* 导航栏样式 */
+nav {
+    background-color: rgb(239, 241, 238);
+    border-bottom: 1px solid #e5e5ea;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+    /* 确保导航栏在最上层 */
+}
+
+/* 容器样式 */
+#app {
+    background: #f7f7f7;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 0;
+    margin-top: 40px;
+    /* 给导航栏留出空间 */
+    height: calc(100vh - 40px);
+    /* 减去导航栏的高度 */
+    overflow-y: hidden;
+    /* 隐藏容器的滚动条 */
+}
+
+/* 列表样式 */
+ul {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    /* 占满容器高度 */
+    overflow-y: auto;
+    /* 当内容超出高度时显示垂直滚动条 */
+    counter-reset: line-number;
+    /* 初始化行号计数器 */
+}
+
+li {
+    line-height: 15px;
+    list-style-type: none;
+    padding: 5px;
+    border-bottom: 1px solid #e5e5ea;
+    transition: background-color 0.2s ease;
+    min-height: 15px;
+    display: flex;
+    /* 使用 flex 布局 */
+    border-right: 1px solid #e5e5ea;
+}
+
+li::before {
+    counter-increment: line-number;
+    /* 增加行号计数器 */
+    content: counter(line-number);
+    /* 显示行号 */
+    width: 20px;
+    /* 固定行号宽度 */
+    text-align: right;
+    margin-right: 10px;
+    font-size: 10px;
+    color: #999;
+    /* border-right: 1px solid #e5e5ea; */
+}
+
+li:hover {
+    background-color: #fafafa;
+}
+
+/* 编辑状态样式 */
+.editable {
+    background-color: #f0f0f0;
+}
+
+/* 输入框和选择框样式 */
+input,
+select {
+    padding: 4px;
+    border: 1px solid #d1d1d6;
+    border-radius: 8px;
+    margin-right: 2px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+/* 按钮样式 */
+button {
+    padding: 4px 8px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+button:hover {
+    background-color: #e5e5ea;
+}
+
+button:active {
+    background-color: #d1d1d6;
+}
+
+/* 保存和取消按钮样式 */
+button:nth-child(odd) {
+    background-color: #007aff;
+    color: #fff;
+}
+
+button:nth-child(odd):hover {
+    background-color: #0066cc;
+}
+
+button:nth-child(odd):active {
+    background-color: #0052a3;
+}
+
+/* 添加按钮样式 */
+#add-button {
+    background-color: #34c759;
+    color: #fff;
+}
+
+#add-button:hover {
+    background-color: #28a745;
+}
+
+#add-button:active {
+    background-color: #218838;
+}
+
+/* 删除按钮样式 */
+button.delete-button {
+    background-color: #ff3b30;
+    color: #fff;
+}
+
+button.delete-button:hover {
+    background-color: #d9271e;
+}
+
+button.delete-button:active {
+    background-color: #b32019;
+}
+
+/* 保存所有按钮样式 */
+#save-all-button {
+    margin-right: 10px;
+    background-color: #007aff;
+    color: #fff;
+}
+
+#save-all-button:hover {
+    background-color: #0066cc;
+}
+
+#save-all-button:active {
+    background-color: #0052a3;
+}
+
+/* 新增样式：设置不同命令类型的字体颜色 */
+li span.comment {
+    color: darkgreen;
+}
+
+li span.export {
+    color: #0066cc;
+}
+
+li span.alias {
+    color: orange;
+}
+
+/* 滚动条样式 */
+/* 滚动条整体样式 */
+::-webkit-scrollbar {
+    width: 8px;
+    background-color: #f7f7f7;
+}
+
+/* 滚动条滑块样式 */
+::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+}
+
+/* 滚动条滑块悬停样式 */
+::-webkit-scrollbar-thumb:hover {
+    background-color: #aaa;
+}
+
+/* 添加禁用按钮样式 */
+button.disabled {
+    background-color: #e5e5ea;
+    color: #a9a9a9;
+    cursor: not-allowed;
+}
