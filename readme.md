@@ -1,15 +1,18 @@
-# hmark
+# hpath - 环境变量图形化设置工具
 
-V1.1.0
+## 项目概述
+hpath 是一款专为用户打造的环境变量图形化设置工具，它提供了直观的界面，帮助用户轻松管理和配置环境变量。通过该工具，用户可以方便地查看、编辑、添加和删除环境变量，而无需手动修改配置文件。
 
-A simple but free Markdown app for MacOS users!
+## 功能特性
+- **多文件支持**：支持 `.zprofile`、`.zshrc`、`.bash_profile` 和 `.bashrc` 等常见的环境变量配置文件。
+- **可视化编辑**：通过图形界面直观地对环境变量进行编辑，包括变量名、变量值和注释等。
+- **实时预览**：在编辑过程中实时预览环境变量的修改效果。
+- **数据保存**：支持保存所有修改，并将更改同步到相应的配置文件中。
 
-Now you can uninstall other unfree software for markdown.
+## 安装与运行
+### 前提条件
+确保你已经安装了 Node.js 和 npm。
 
-## Screenshots
-<img src="https://p.sda1.dev/19/465e7e9dabbd75addbd4e74891ce46e2/cap.png" >
+### 应用截图
 
-## Thanks to
-* github-markdown-css
-* electron
-* marked.js
+![应用截图](cap1.png)
