@@ -1,23 +1,67 @@
+/* 定义全局变量 */
+:root {
+    --body-bg-color: rgb(239, 241, 238);
+    --body-font-size: 13px;
+    --list-item-line-height: 15px;
+    --list-item-padding: 5px;
+    --border-color: #e5e5ea;
+    --line-number-width: 20px;
+    --line-number-font-size: 10px;
+    --line-number-color: #999;
+    --nav-bg-color: rgb(239, 241, 238);
+    --app-bg-color: #f7f7f7;
+    --app-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --app-margin-top: 40px;
+    --input-padding: 4px;
+    --button-padding: 4px 8px;
+    --button-border-radius: 4px;
+    --button-hover-bg-color: #e5e5ea;
+    --button-active-bg-color: #d1d1d6;
+    --odd-button-bg-color: #007aff;
+    --odd-button-hover-bg-color: #0066cc;
+    --odd-button-active-bg-color: #0052a3;
+    --add-button-bg-color: #34c759;
+    --add-button-hover-bg-color: #28a745;
+    --add-button-active-bg-color: #218838;
+    --delete-button-bg-color: #ff3b30;
+    --delete-button-hover-bg-color: #d9271e;
+    --delete-button-active-bg-color: #b32019;
+    --save-all-button-bg-color: #007aff;
+    --save-all-button-hover-bg-color: #0066cc;
+    --save-all-button-active-bg-color: #0052a3;
+    --comment-color: darkgreen;
+    --export-color: #0066cc;
+    --alias-color: orange;
+    --scrollbar-width: 8px;
+    --scrollbar-bg-color: #f7f7f7;
+    --scrollbar-thumb-bg-color: #ccc;
+    --scrollbar-thumb-hover-bg-color: #aaa;
+    --disabled-button-bg-color: #e5e5ea;
+    --disabled-button-color: #a9a9a9;
+    --button-height: 25px;
+    /* 新增：定义按钮的固定高度 */
+}
+
 /* 全局样式 */
 body {
     /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; */
-    background-color: rgb(239, 241, 238);
+    background-color: var(--body-bg-color);
     margin: 0;
     padding: 0;
-    font-size: 13px;
+    font-size: var(--body-font-size);
 }
 
 /* 列表项样式调整，确保行号垂直居中 */
 li {
-    line-height: 15px;
+    line-height: var(--list-item-line-height);
     list-style-type: none;
-    padding: 5px;
-    border-bottom: 1px solid #e5e5ea;
+    padding: var(--list-item-padding);
+    border-bottom: 1px dashed var(--border-color);
     transition: background-color 0.2s ease;
-    min-height: 15px;
+    min-height: var(--list-item-line-height);
     display: flex;
     /* 使用 flex 布局 */
-    border-right: 1px solid #e5e5ea;
+    border-right: 1px solid var(--border-color);
     align-items: center;
     /* 新增：确保行内元素垂直居中 */
 }
@@ -27,12 +71,12 @@ li::before {
     /* 增加行号计数器 */
     content: counter(line-number);
     /* 显示行号 */
-    width: 20px;
+    width: var(--line-number-width);
     /* 固定行号宽度 */
     text-align: right;
     margin-right: 10px;
-    font-size: 10px;
-    color: #999;
+    font-size: var(--line-number-font-size);
+    color: var(--line-number-color);
     /* border-right: 1px solid #e5e5ea; */
     display: flex;
     /* 新增：使用 flex 布局 */
@@ -42,9 +86,9 @@ li::before {
 
 /* 导航栏样式 */
 nav {
-    background-color: rgb(239, 241, 238);
-    border-bottom: 1px solid #e5e5ea;
-    padding: 5px;
+    background-color: var(--nav-bg-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: var(--list-item-padding);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -58,12 +102,12 @@ nav {
 
 /* 容器样式 */
 #app {
-    background: #f7f7f7;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: var(--app-bg-color);
+    box-shadow: var(--app-box-shadow);
     padding: 0;
-    margin-top: 40px;
+    margin-top: var(--app-margin-top);
     /* 给导航栏留出空间 */
-    height: calc(100vh - 40px);
+    height: calc(100vh - var(--app-margin-top));
     /* 减去导航栏的高度 */
     overflow-y: hidden;
     /* 隐藏容器的滚动条 */
@@ -93,9 +137,9 @@ li:hover {
 /* 输入框和选择框样式 */
 input,
 select {
-    padding: 4px;
-    border: 1px solid #d1d1d6;
-    border-radius: 8px;
+    padding: var(--input-padding);
+    border: 1px solid var(--border-color);
+    border-radius: var(--button-border-radius);
     margin-right: 2px;
     margin-top: 2px;
     margin-bottom: 2px;
@@ -103,114 +147,126 @@ select {
 
 /* 按钮样式 */
 button {
-    padding: 4px 8px;
+    /* padding: var(--button-padding); */
     margin-top: 2px;
     margin-bottom: 2px;
     border: none;
-    border-radius: 8px;
+    border-radius: var(--button-border-radius);
     cursor: pointer;
     transition: background-color 0.2s ease;
+    height: var(--button-height);
+    /* 新增：设置按钮的固定高度 */
+    line-height: var(--button-height);
+    /* 新增：设置行高与高度相同，保证文字垂直居中 */
+    box-sizing: border-box;
+    /* 新增：确保内边距和边框不会增加按钮的整体高度 */
+    white-space: nowrap;
+    /* 新增：防止文字换行 */
+    overflow: hidden;
+    /* 新增：隐藏溢出的文字 */
+    text-overflow: ellipsis;
+    /* 新增：当文字溢出时显示省略号 */
 }
 
 button:hover {
-    background-color: #e5e5ea;
+    background-color: var(--button-hover-bg-color);
 }
 
 button:active {
-    background-color: #d1d1d6;
+    background-color: var(--button-active-bg-color);
 }
 
-/* 保存和取消按钮样式 */
+/* 奇数按钮样式 */
 button:nth-child(odd) {
-    background-color: #007aff;
+    background-color: var(--odd-button-bg-color);
     color: #fff;
 }
 
 button:nth-child(odd):hover {
-    background-color: #0066cc;
+    background-color: var(--odd-button-hover-bg-color);
 }
 
 button:nth-child(odd):active {
-    background-color: #0052a3;
+    background-color: var(--odd-button-active-bg-color);
 }
 
 /* 添加按钮样式 */
 #add-button {
-    background-color: #34c759;
+    background-color: var(--add-button-bg-color);
     color: #fff;
 }
 
 #add-button:hover {
-    background-color: #28a745;
+    background-color: var(--add-button-hover-bg-color);
 }
 
 #add-button:active {
-    background-color: #218838;
+    background-color: var(--add-button-active-bg-color);
 }
 
 /* 删除按钮样式 */
 button.delete-button {
-    background-color: #ff3b30;
+    background-color: var(--delete-button-bg-color);
     color: #fff;
 }
 
 button.delete-button:hover {
-    background-color: #d9271e;
+    background-color: var(--delete-button-hover-bg-color);
 }
 
 button.delete-button:active {
-    background-color: #b32019;
+    background-color: var(--delete-button-active-bg-color);
 }
 
 /* 保存所有按钮样式 */
 #save-all-button {
     margin-right: 10px;
-    background-color: #007aff;
+    background-color: var(--save-all-button-bg-color);
     color: #fff;
 }
 
 #save-all-button:hover {
-    background-color: #0066cc;
+    background-color: var(--save-all-button-hover-bg-color);
 }
 
 #save-all-button:active {
-    background-color: #0052a3;
+    background-color: var(--save-all-button-active-bg-color);
 }
 
 /* 新增样式：设置不同命令类型的字体颜色 */
 li span.comment {
-    color: darkgreen;
+    color: var(--comment-color);
 }
 
 li span.export {
-    color: #0066cc;
+    color: var(--export-color);
 }
 
 li span.alias {
-    color: orange;
+    color: var(--alias-color);
 }
 
 /* 滚动条样式 */
 /* 滚动条整体样式 */
 ::-webkit-scrollbar {
-    width: 8px;
-    background-color: #f7f7f7;
+    width: var(--scrollbar-width);
+    background-color: var(--scrollbar-bg-color);
 }
 
 /* 滚动条滑块样式 */
 ::-webkit-scrollbar-thumb {
-    background-color: #ccc;
+    background-color: var(--scrollbar-thumb-bg-color);
     border-radius: 4px;
 }
 
 /* 滚动条滑块悬停样式 */
 ::-webkit-scrollbar-thumb:hover {
-    background-color: #aaa;
+    background-color: var(--scrollbar-thumb-hover-bg-color);
 }
 
 /* 添加禁用按钮样式 */
 button.disabled {
-    background-color: #e5e5ea;
-    color: #a9a9a9;
+    background-color: var(--disabled-button-bg-color);
+    color: var(--disabled-button-color);
     cursor: not-allowed;
 }

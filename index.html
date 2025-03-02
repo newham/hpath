@@ -44,10 +44,10 @@
                         <input v-model="comment[index]" placeholder="Edit comment" />
                     </template>
                     <button @click.stop="saveLine(index)">✓</button>
-                    <button @click.stop="cancelEdit(index)">×</button>
+                    <button @click.stop="cancelEdit(index)">✕</button>
                     <button @click.stop="deleteLine(index)" class="delete-button">⇤</button>
                     <!-- 新增行按钮 -->
-                    <button @click.stop="addLineBelow(index)">+ 新增行</button>
+                    <button @click.stop="addLineBelow(index)">+</button>
                 </div>
             </li>
         </ul>
