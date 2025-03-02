@@ -30,24 +30,32 @@ app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit();
 });
 
-ipcMain.handle('read-zprofile', async () => {
-    const filePath = path.join(process.env.HOME, '.zprofile');
+ipcMain.handle('read-zprofile', async (event, fileName) => {
+    const filePath = path.join(process.env.HOME, fileName);
     try {
         const data = fs.readFileSync(filePath, 'utf8');
         return data;
     } catch (error) {
-        dialog.showErrorBox('Error', `Failed to read .zprofile: ${error.message}`);
+        await dialog.showMessageBox({
+            type: 'error',
+            title: 'Error',
+            message: `Failed to read ${fileName}: ${error.message}`
+        });
         return null;
     }
 });
 
-ipcMain.handle('write-zprofile', async (event, content) => {
-    const filePath = path.join(process.env.HOME, '.zprofile');
+ipcMain.handle('write-zprofile', async (event, data) => {
+    const filePath = path.join(process.env.HOME, data[0]);
     try {
-        fs.writeFileSync(filePath, content, 'utf8');
+        fs.writeFileSync(filePath, data[1], 'utf8');
         return true;
     } catch (error) {
-        dialog.showErrorBox('Error', `Failed to write .zprofile: ${error.message}`);
+        await dialog.showMessageBox({
+            type: 'error',
+            title: 'Error',
+            message: `Failed to write ${data[0]}: ${error.message}`
+        });
         return false;
     }
 });

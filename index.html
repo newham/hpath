@@ -14,6 +14,12 @@
     <div id="app">
         <nav>
             <button id="add-button" @click="addLine">+</button>
+            <select @change="onFileSelectChange">
+                <option value=".zprofile">.zprofile</option>
+                <option value=".zshrc">.zshrc</option>
+                <option value=".bash_profile">.bash_profile</option>
+                <option value=".bashrc">.bashrc</option>
+            </select>
             <button id="save-all-button" @click="saveAll" :disabled="!isDataChanged"
                 :class="{ 'disabled': !isDataChanged }">
                 ✓
@@ -27,17 +33,17 @@
                 <div v-else>
                     <select v-model="commandType[index]">
                         <option value="export">export</option>
-                        <option value="others">others</option>
+                        <option value="null">null</option>
                         <option value="alias">alias</option>
                         <option value="comment">comment</option>
                     </select>
                     <template v-if="commandType[index] === 'export' || commandType[index] === 'alias'">
                         <input v-model="envName[index]"
-                            :disabled="commandType[index] === 'others' || commandType[index] === 'comment'" />
+                            :disabled="commandType[index] === 'null' || commandType[index] === 'comment'" />
                         <input v-model="envValue[index]" :disabled="commandType[index] === 'comment'" />
                         <input v-model="comment[index]" />
                     </template>
-                    <template v-else-if="commandType[index] === 'others'">
+                    <template v-else-if="commandType[index] === 'null'">
                         <input v-model="envLines[index]" />
                     </template>
                     <template v-else-if="commandType[index] === 'comment'">

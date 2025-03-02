@@ -11,7 +11,7 @@
     --nav-bg-color: rgb(239, 241, 238);
     --app-bg-color: #f7f7f7;
     --app-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    --app-margin-top: 40px;
+    --app-margin-top: 42px;
     --input-padding: 4px;
     --button-padding: 4px 8px;
     --button-border-radius: 4px;
@@ -38,7 +38,7 @@
     --scrollbar-thumb-hover-bg-color: #aaa;
     --disabled-button-bg-color: #e5e5ea;
     --disabled-button-color: #a9a9a9;
-    --button-height: 25px;
+    --button-height: 24px;
     /* 新增：定义按钮的固定高度 */
 }
 
