@@ -78,7 +78,7 @@ new Vue({
                                 envValue[index] = restOfCommand.slice(equalSignIndex + 1);
                             } else {
                                 singleLineInput[index] = restOfCommand;
-                                commandType[index] = 'others';
+                                commandType[index] = 'null';
                             }
                         }
                     }
@@ -125,7 +125,7 @@ new Vue({
                     newLine += ` #${this.comment[index]}`;
                 }
                 this.envLines[index] = newLine.trim();
-            } else if (this.commandType[index] === 'others') {
+            } else if (this.commandType[index] === 'null') {
                 this.envLines[index] = this.envLines[index].trim();
             }
             this.editingIndex = null;
