@@ -19,10 +19,16 @@
     },
     "mac": {
       "icon": "./asserts/img/icons8-list-256(Mac).icns",
-      "target": {
-        "target": "dir",
-        "arch": "arm64"
-      }
+      "target": [
+        {
+          "target": "dmg",
+          "arch": "arm64"
+        },
+        {
+          "target": "dir",
+          "arch": "arm64"
+        }
+      ]
     }
   },
   "author": "newham",
