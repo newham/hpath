@@ -1,4 +1,10 @@
 #!/bin/bash
+
+echo "清理缓存"
+rm -rf ./build
+echo "开始构建"
+npm run build_linux
+
 icon="./asserts/img/icon.png"
 # 检查图标文件是否存在
 if [ ! -f "$icon" ]; then
@@ -8,7 +14,7 @@ fi
 cp ./build/*.AppImage ~/App
 
 # 遍历当前目录下的所有 .AppImage 文件
-for appimage in ~/App/*.AppImage; do
+for appimage in ./build/*.AppImage; do
     # 检查文件是否存在
     if [ -f "$appimage" ]; then
         # 获取应用程序名称
@@ -21,7 +27,7 @@ for appimage in ~/App/*.AppImage; do
         cat << EOF > "$desktop_file"
 [Desktop Entry]
 Name=$app_name
-Exec=$appimage
+Exec=$HOME/App/${app_name}.AppImage
 Icon=$HOME/App/${app_name}.png
 Terminal=false
 Type=Application
