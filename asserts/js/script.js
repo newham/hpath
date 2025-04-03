@@ -1,9 +1,11 @@
 const { ipcRenderer } = require('electron');
+const os = require('os'); // 引入 os 模块
 
 // 创建 Vue 实例
 new Vue({
     el: '#app',
     data: {
+        osType: os.type(), // 获取操作系统类型并赋值给 osType
         envLines: [],
         commandType: [],
         envName: [],
@@ -13,7 +15,8 @@ new Vue({
         editingIndex: null,
         originalLine: '',
         originalData: {},
-        selectedProfile: '.zprofile'
+        // 根据 osType 初始化 selectedProfile
+        selectedProfile: os.type() === 'Linux' ? '.bashrc' : '.zprofile'
     },
     computed: {
         isDataChanged() {

@@ -14,11 +14,14 @@
     <div id="app">
         <nav>
             <button id="add-button" @click="addLine">+</button>
-            <select @change="onFileSelectChange">
+            <select @change="onFileSelectChange" v-if="osType=='Linux'">
+                <option value=".bashrc">.bashrc</option>
+                <option value=".profile">.profile</option>
+                <option value=".bash_profile">.bash_profile</option>
+            </select>
+            <select @change="onFileSelectChange" v-else>
                 <option value=".zprofile">.zprofile</option>
                 <option value=".zshrc">.zshrc</option>
-                <option value=".bash_profile">.bash_profile</option>
-                <option value=".bashrc">.bashrc</option>
             </select>
             <button id="save-all-button" @click="saveAll" :disabled="!isDataChanged"
                 :class="{ 'disabled': !isDataChanged }">
