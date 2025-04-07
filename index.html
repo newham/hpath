@@ -28,7 +28,7 @@
                 ✓
             </button>
         </nav>
-        <ul>
+        <ul id="lineBox">
             <li v-for="(line, index) in envLines" :key="index" @click="editLine(index)"
                 :class="{ editable: editingIndex === index }">
                 <!-- 根据 commandType 添加不同的类名 -->

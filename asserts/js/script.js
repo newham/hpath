@@ -164,6 +164,14 @@ new Vue({
                 comment: ''
             };
             this.editingIndex = newIndex;
+
+            // 使用 Vue.nextTick 确保 DOM 更新完成后再滚动
+            this.$nextTick(() => {
+                const lineBox = document.getElementById('lineBox');
+                if (lineBox) {
+                    lineBox.scrollTop = lineBox.scrollHeight;
+                }
+            });
         },
         addLineBelow(index) {
             const newIndex = index + 1;
@@ -181,6 +189,13 @@ new Vue({
                 comment: ''
             };
             this.editingIndex = newIndex;
+            // 使用 Vue.nextTick 确保 DOM 更新完成后再滚动
+            this.$nextTick(() => {
+                const lineBox = document.getElementById('lineBox');
+                if (lineBox) {
+                    lineBox.scrollTop += 30; // 向下滚动 30px
+                }
+            });
         },
         deleteLine(index) {
             this.envLines.splice(index, 1);
