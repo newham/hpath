@@ -107,6 +107,16 @@ new Vue({
                 this.comment = comment;
                 this.singleLineInput = singleLineInput;
                 this.originalData = originalData;
+            } else {
+                // 当 content 为空时，清空相关数据
+                this.envLines = [];
+                this.commandType = [];
+                this.envName = [];
+                this.envValue = [];
+                this.comment = [];
+                this.singleLineInput = [];
+                this.originalData = {};
+                this.selectedProfile = fileName;
             }
         },
         isComment(line) {
