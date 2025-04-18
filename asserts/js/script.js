@@ -83,6 +83,12 @@ new Vue({
                                 singleLineInput[index] = restOfCommand;
                                 commandType[index] = 'null';
                             }
+                        } else {
+                            // 处理无其他含义的行
+                            commandType[index] = 'null';
+                            envName[index] = '';
+                            envValue[index] = '';
+                            singleLineInput[index] = commandPart;
                         }
                     }
                     // 保存每个索引的原始数据
